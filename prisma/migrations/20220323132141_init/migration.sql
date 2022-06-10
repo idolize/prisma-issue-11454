@@ -1,13 +1,13 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "email" TEXT NOT NULL,
     "name" TEXT
 );
 
 -- CreateTable
 CREATE TABLE "Post" (
-    "id" SERIAL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "title" TEXT NOT NULL,
     "content" TEXT,
     "published" BOOLEAN NOT NULL DEFAULT false,

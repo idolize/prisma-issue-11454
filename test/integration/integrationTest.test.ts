@@ -12,20 +12,17 @@ describe('post interaction', () => {
 
   // Create a user and a post
   beforeAll(async () => {
-    user = await prisma.user.create({
-      data: {
+    // Query DB
+    user = (await prisma.user.findUnique({
+      where: {
         email: 'test@test.com',
-        name: 'Bob Smith'
       },
-    });
-    post = await prisma.post.create({
-      data: {
-        title: 'Test',
-        content: 'Test post',
-        extraField: 'This is optional extra data!',
+    }))!;
+    post = (await prisma.post.findFirst({
+      where: {
         authorId: user.id
       },
-    });
+    }))!;
 
     // Start server
     app = await startServer(prisma);
@@ -35,7 +32,6 @@ describe('post interaction', () => {
 
   describe('data fetch', () => {
     it('fetches posts WITHOUT extra data (should fail due to bug)', async () => {
-      // Fetch posts for show
       let postsResponse = await request(app).get(baseUrl);
       expect(postsResponse.status).toBe(200);
       let postBody = postsResponse.body as Post;
@@ -47,7 +43,6 @@ describe('post interaction', () => {
     });
 
     it('fetches posts WITH extra data (should fail due to bug)', async () => {
-      // Fetch posts for show
       let postsResponse = await request(app).get(`${baseUrl}?includeExtra=true`);
       expect(postsResponse.status).toBe(200);
       let postBody = postsResponse.body as Post;

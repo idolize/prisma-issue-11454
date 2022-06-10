@@ -35,24 +35,6 @@ export function startServer(prisma: PrismaClient = getPrisma()): Promise<Server>
     res.send(results);
   });
 
-  app.get('/addpost', async (req, res) => {
-    const user = await prisma.user.create({
-      data: {
-        email: 'test@test.com',
-        name: 'Bob Smith'
-      },
-    });
-    const post = await prisma.post.create({
-      data: {
-        title: 'Test',
-        content: 'Test post',
-        extraField: 'This is optional extra data!',
-        authorId: user.id
-      },
-    });
-    res.send(post);
-  })
-
   return new Promise<Server>((resolve) => {
     // Start the actual express server
     const port = process.env.PORT || 3000;

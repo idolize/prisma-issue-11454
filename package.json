@@ -14,7 +14,7 @@
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:reset": "prisma migrate reset --force",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "npm run build && node dist/index.js",
     "typecheck": "tsc --noEmit --listFiles false",
     "typecheck:tests": "cd test && tsc --noEmit --listFiles false",
     "test": "cd test/integration && dotenv -e .env.test -- jest --maxConcurrency=1 --maxWorkers=1"
