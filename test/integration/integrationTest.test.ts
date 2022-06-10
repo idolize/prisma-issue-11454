@@ -34,7 +34,7 @@ describe('post interaction', () => {
   afterAll(() => app?.close());
 
   describe('data fetch', () => {
-    it('fetches posts without extra data (should pass)', async () => {
+    it('fetches posts WITHOUT extra data (should fail due to bug)', async () => {
       // Fetch posts for show
       let postsResponse = await request(app).get(baseUrl);
       expect(postsResponse.status).toBe(200);
@@ -46,16 +46,16 @@ describe('post interaction', () => {
       expect(postBody.extraField).toBeNull();
     });
 
-    // it('fetches posts without extra data (should fail due to bug)', async () => {
-    //   // Fetch posts for show
-    //   let postsResponse = await request(app).get(`${baseUrl}?includeExtra=true`);
-    //   expect(postsResponse.status).toBe(200);
-    //   let postBody = postsResponse.body as Post;
-    //   expect(postBody.authorId).toBe(user.id);
-    //   expect(postBody.content).toBe(post.content);
-    //   expect(postBody.title).toBe(post.title);
-    //   // Did include extraField, so it should be present
-    //   expect(postBody.extraField).toBe(post.extraField);
-    // });
+    it('fetches posts WITH extra data (should fail due to bug)', async () => {
+      // Fetch posts for show
+      let postsResponse = await request(app).get(`${baseUrl}?includeExtra=true`);
+      expect(postsResponse.status).toBe(200);
+      let postBody = postsResponse.body as Post;
+      expect(postBody.authorId).toBe(user.id);
+      expect(postBody.content).toBe(post.content);
+      expect(postBody.title).toBe(post.title);
+      // Did include extraField, so it should be present
+      expect(postBody.extraField).toBe(post.extraField);
+    });
   });
 });

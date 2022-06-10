@@ -24,17 +24,34 @@ export function startServer(prisma: PrismaClient = getPrisma()): Promise<Server>
     // https://github.com/prisma/prisma/issues/11454
     const results = await prisma.$queryRaw`
         select
-          ${includeExtra ? Prisma.sql`extraField` : Prisma.empty}
+          ${includeExtra ? Prisma.sql`"extraField"` : Prisma.empty}
           id,
           title,
           content,
-          authorId,
+          "authorId",
           published
-        from Post;
-      `;
+        from "Post"`;
 
     res.send(results);
   });
+
+  app.get('/addpost', async (req, res) => {
+    const user = await prisma.user.create({
+      data: {
+        email: 'test@test.com',
+        name: 'Bob Smith'
+      },
+    });
+    const post = await prisma.post.create({
+      data: {
+        title: 'Test',
+        content: 'Test post',
+        extraField: 'This is optional extra data!',
+        authorId: user.id
+      },
+    });
+    res.send(post);
+  })
 
   return new Promise<Server>((resolve) => {
     // Start the actual express server
