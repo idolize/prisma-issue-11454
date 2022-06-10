@@ -1,7 +1,7 @@
 import NodeEnvironment from 'jest-environment-node';
 import { getPrisma } from '../../../src/prisma';
 
-class PostgreSQLEnvironment extends NodeEnvironment {
+class PrismaNodeEnvironment extends NodeEnvironment {
   async setup() {
     await super.setup();
     const prisma = getPrisma();
@@ -15,4 +15,4 @@ class PostgreSQLEnvironment extends NodeEnvironment {
   }
 }
 
-export default PostgreSQLEnvironment;
+export default PrismaNodeEnvironment;
