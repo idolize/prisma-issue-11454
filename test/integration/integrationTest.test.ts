@@ -12,20 +12,17 @@ describe('post interaction', () => {
 
   // Create a user and a post
   beforeAll(async () => {
-    user = await prisma.user.create({
-      data: {
+    // Query DB
+    user = (await prisma.user.findUnique({
+      where: {
         email: 'test@test.com',
-        name: 'Bob Smith'
       },
-    });
-    post = await prisma.post.create({
-      data: {
-        title: 'Test',
-        content: 'Test post',
-        extraField: 'This is optional extra data!',
+    }))!;
+    post = (await prisma.post.findFirst({
+      where: {
         authorId: user.id
       },
-    });
+    }))!;
 
     // Start server
     app = await startServer(prisma);
