@@ -17,7 +17,7 @@ export function startServer(prisma: PrismaClient = getPrisma()): Promise<Server>
 
   // GET /data?includeExtra=true
   app.get('/data', async (req, res) => {
-    // optional - only set if user is "logged in"
+    // optional - if set will include extra data (used to demonstrate dynamic SQL with queryRaw template string)
     const includeExtra = req.query.includeExtra === 'true';
 
     // BUG $queryRaw not working in jest environment
