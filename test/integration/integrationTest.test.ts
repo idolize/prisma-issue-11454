@@ -35,7 +35,6 @@ describe('post interaction', () => {
 
   describe('data fetch', () => {
     it('fetches posts WITHOUT extra data (should fail due to bug)', async () => {
-      // Fetch posts for show
       let postsResponse = await request(app).get(baseUrl);
       expect(postsResponse.status).toBe(200);
       let postBody = postsResponse.body as Post;
@@ -47,7 +46,6 @@ describe('post interaction', () => {
     });
 
     it('fetches posts WITH extra data (should fail due to bug)', async () => {
-      // Fetch posts for show
       let postsResponse = await request(app).get(`${baseUrl}?includeExtra=true`);
       expect(postsResponse.status).toBe(200);
       let postBody = postsResponse.body as Post;
